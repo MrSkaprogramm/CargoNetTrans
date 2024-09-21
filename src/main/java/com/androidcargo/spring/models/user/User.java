@@ -32,4 +32,6 @@ public abstract class User {
   private String phoneNumber;
   @Column(name = "email")
   private String email;
+  @Column(name = "acceptRules")
+  private boolean acceptRules;
 }

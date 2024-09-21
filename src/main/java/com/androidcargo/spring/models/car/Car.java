@@ -1,18 +1,15 @@
 package com.androidcargo.spring.models.car;
 
+import com.androidcargo.spring.models.data.CarData;
 import com.androidcargo.spring.models.work.DriverWork;
 import com.androidcargo.spring.models.work.MoverWork;
+import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -34,4 +31,6 @@ public class Car {
   private double height;
   @Column(name = "driverId")
   private int driverId;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  private List<CarData> carDataList = new ArrayList<>();
 }

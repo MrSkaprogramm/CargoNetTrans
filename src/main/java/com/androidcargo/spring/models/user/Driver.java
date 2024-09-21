@@ -1,5 +1,6 @@
 package com.androidcargo.spring.models.user;
 
+import com.androidcargo.spring.models.data.DriverData;
 import com.androidcargo.spring.models.order.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,4 +18,6 @@ public class Driver extends User {
   private boolean mowingWork;
   @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<Order> orders = new ArrayList<>();
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  private List<DriverData> driverDataList = new ArrayList<>();
 }

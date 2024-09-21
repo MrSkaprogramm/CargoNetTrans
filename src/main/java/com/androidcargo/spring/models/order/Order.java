@@ -3,6 +3,7 @@ package com.androidcargo.spring.models.order;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.androidcargo.spring.models.Location;
 import com.androidcargo.spring.models.user.Client;
 import com.androidcargo.spring.models.user.Driver;
 import com.androidcargo.spring.models.user.Mover;
@@ -20,8 +21,6 @@ public class Order {
   private int id;
   @Column(name = "orderStatus")
   OrderStatus orderStatus;
-  @Column(name = "distance")
-  private BigDecimal distance;
   @Column(name = "totalPrice")
   private BigDecimal totalPrice;
   @Column(name = "description")
@@ -36,7 +35,14 @@ public class Order {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "driver_id", nullable = false)
   private Driver driver;
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "mover_id", nullable = false)
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+          name = "order_has_mover",
+          joinColumns = @JoinColumn(name = "order_id"),
+          inverseJoinColumns = @JoinColumn(name = "mover_id")
+  )
   private Mover mover;
+  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "location_id", unique = true, nullable = false)
+  private Location location;
 }
