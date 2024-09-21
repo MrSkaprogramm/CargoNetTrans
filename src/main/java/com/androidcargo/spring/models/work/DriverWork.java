@@ -1,6 +1,9 @@
 package com.androidcargo.spring.models.work;
 
 import java.math.BigDecimal;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import com.androidcargo.spring.models.car.BodyType;
@@ -11,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "DriverWork")
 public class DriverWork {

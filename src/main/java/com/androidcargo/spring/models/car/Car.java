@@ -20,9 +20,8 @@ public class Car {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  @Column(name = "driverWorksList")
-  private List<DriverWork> driverWorksList;
-  private BodyType bodyType;
+  @Column(name = "driverWork")
+  private DriverWork driverWork;
   @Column(name = "capacity")
   private double capacity;
   @Column(name = "width")

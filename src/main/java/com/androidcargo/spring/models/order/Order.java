@@ -2,6 +2,8 @@ package com.androidcargo.spring.models.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.androidcargo.spring.models.Location;
 import com.androidcargo.spring.models.user.Client;
@@ -41,7 +43,7 @@ public class Order {
           joinColumns = @JoinColumn(name = "order_id"),
           inverseJoinColumns = @JoinColumn(name = "mover_id")
   )
-  private Mover mover;
+  private List<Mover> movers = new ArrayList<>();
   @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name = "location_id", unique = true, nullable = false)
   private Location location;
