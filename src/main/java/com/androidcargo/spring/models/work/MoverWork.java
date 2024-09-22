@@ -20,16 +20,14 @@ public class MoverWork {
   private int id;
   @Column(name = "moverWorkType")
   private WorkType moverWorkType;
-  @Column(name = "pricePerWork")
-  private BigDecimal pricePerWork;
-  @Column(name = "pricePerHour")
-  private BigDecimal pricePerHour;
-  @Column(name = "pricePerKg")
-  private BigDecimal pricePerKg;
-  @Column(name = "pricePerTeamWork")
-  private BigDecimal pricePerTeamWork;
-  @Column(name = "pricePerShift")
-  private BigDecimal pricePerShift;
-  @Column(name = "pricePerDowntownWork")
-  private BigDecimal pricePerDowntownWork;
+  @Column(name = "freight")
+  private BigDecimal freight;
+  @Column(name = "pricePerFreightHour")
+  private BigDecimal pricePerFreightHour;
+  @Column(name = "pricePerDeliveryHour")
+  private BigDecimal pricePerDeliveryHour;
+  @Column(name = "pricePerFloorLifting")
+  private BigDecimal pricePerFloorLifting;
+  @Column(name = "pricePerHeavyLoadFreightHour")
+  private BigDecimal pricePerHeavyLoadFreightHour;
 }

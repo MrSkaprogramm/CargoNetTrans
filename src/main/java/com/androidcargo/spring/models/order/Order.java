@@ -31,6 +31,16 @@ public class Order {
   private LocalDateTime actualStartTime;
   @Column(name = "actualEndTime")
   private LocalDateTime actualEndTime;
+  @Column(name = "isDowntownWork")
+  private boolean isDowntownWork;
+  @Column(name = "isElevatorDelivery;")
+  private boolean isElevatorDelivery;
+  @Column(name = "isHeavyLoad")
+  private boolean isHeavyLoad;
+  @Column(name = "freightQuantity")
+  private BigDecimal freightQuantity;
+  @Column(name = "floorsQuantity")
+  private BigDecimal floorsQuantity;
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "client_id", nullable = false)
   private Client client;

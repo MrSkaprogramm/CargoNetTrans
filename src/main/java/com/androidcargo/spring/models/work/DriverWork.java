@@ -25,12 +25,10 @@ public class DriverWork {
   @Column(name = "permission")
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private BodyType carBodyType;
-  @Column(name = "permission")
-  private BigDecimal pricePerHour;
-  @Column(name = "permission")
-  private BigDecimal pricePerKm;
-  @Column(name = "permission")
-  private BigDecimal pricePerShift;
-  @Column(name = "permission")
-  private BigDecimal pricePerDowntownDelivery;
+  @Column(name = "freight")
+  private BigDecimal freight;
+  @Column(name = "pricePerFreightHour")
+  private BigDecimal pricePerFreightHour;
+  @Column(name = "pricePerDowntownKm")
+  private BigDecimal pricePerDowntownKm;
 }
