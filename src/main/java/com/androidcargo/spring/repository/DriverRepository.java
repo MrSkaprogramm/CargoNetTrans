@@ -6,5 +6,4 @@ import com.androidcargo.spring.models.user.Driver;
 
 @Repository
 public interface DriverRepository extends JpaRepository<Driver, Integer> {
-    Driver findByPhoneNumber(String phoneNumber);
 }

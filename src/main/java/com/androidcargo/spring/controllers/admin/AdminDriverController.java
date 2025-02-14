@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/showDrivers")
+@RequestMapping("/")
 public class AdminDriverController {
     private final DriverService driverService;
 
@@ -28,21 +28,9 @@ public class AdminDriverController {
         return "/admin";
     };
 
-    @GetMapping("/{id}/showDriver")
-    public String showCar(@PathVariable int id) {
-        driverService.getDriver(id);
-        return "/admin";
-    };
-
-    @GetMapping("/{id}/blockDriver")
-    public String blockDriver(@PathVariable int id) {
-        driverService.blockDriver(id);
-        return "/admin";
-    };
-
-    @GetMapping("/{id}/unBlockDriver")
-    public String unBlockDriver(@PathVariable int id) {
-        driverService.unBlockDriver(id);
+    @GetMapping("/{id}/showCarInfo")
+    public String showDriverData(@PathVariable int id) {
+        carService.getCar(id);
         return "/admin";
     };
 }

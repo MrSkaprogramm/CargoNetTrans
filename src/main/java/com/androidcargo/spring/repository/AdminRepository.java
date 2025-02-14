@@ -7,5 +7,4 @@ import com.androidcargo.spring.models.admin.Admin;
 
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
-    Admin findByPhoneNumber(String phoneNumber);
 }

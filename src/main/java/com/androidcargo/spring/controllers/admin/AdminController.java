@@ -18,21 +18,13 @@ public class AdminController {
 
     @GetMapping("/changeCharacteristics")
     public String changeCharacteristics() {
+        //отправка в бд изменённых данных
         return "/admin";
     }
 
     @GetMapping("/changeAdminPermission")
     public String changeAdminPermission() {
-        return "/admin";
-    }
-
-    @GetMapping("/changeWorkPrices")
-    public String changeWorkPrices() {
-        return "/admin";
-    }
-
-    @GetMapping("/saveWorkPrices")
-    public String saveWorkPrices() {
+        //отправка в бд изменённых данных
         return "/admin";
     }
 }

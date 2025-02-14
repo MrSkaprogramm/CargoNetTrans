@@ -6,5 +6,4 @@ import com.androidcargo.spring.models.user.Mover;
 
 @Repository
 public interface MoverRepository extends JpaRepository<Mover, Integer> {
-    Mover findByPhoneNumber(String phoneNumber);
 }

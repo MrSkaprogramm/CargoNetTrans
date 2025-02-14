@@ -1,8 +1,8 @@
 package com.androidcargo.spring.service.impl;
 
 import com.androidcargo.spring.models.admin.Admin;
-import com.androidcargo.spring.models.car.Car;
-import com.androidcargo.spring.models.user.Driver;
+import com.androidcargo.spring.models.admin.Permission;
+import com.androidcargo.spring.models.user.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.androidcargo.spring.repository.AdminRepository;
@@ -21,25 +21,11 @@ public class AdminService implements AdminServiceInterface {
   }
 
   @Override
-  public void register(Admin admin) {
+  public void changeAdminPermission(int id, Permission permission) {
+    Admin admin = getAdmin(id);
+    admin.setPermission(permission);
     adminRepository.save(admin);
   }
-
-  /*@Override
-  public void blockUser() {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void unBlockUser() {
-
-  }
-
-  @Override
-  public void changeAdminPermission() {
-
-  }*/
 
   public Admin getAdmin(int id) {
     Admin admin = null;
@@ -60,15 +46,5 @@ public class AdminService implements AdminServiceInterface {
   @Override
   public Admin findByPhone(String phone) {
     return adminRepository.findByPhoneNumber(phone);
-  }
-
-  public Optional<Admin> authenticate(String phoneNumber, String password) {
-    Admin admin = adminRepository.findByPhoneNumber(phoneNumber);
-
-    if (admin != null && admin.getPassword().equals(password)) {
-      return Optional.of(admin);
-    }
-
-    return Optional.empty();
   }
 }

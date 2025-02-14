@@ -19,6 +19,7 @@ public class AdminOrderController {
 
     @GetMapping("/{id}/showOrderInfo")
     public String showOrderInfo(@PathVariable int id) {
+        orderService.getAllOrders();
         return "/admin";
     };
 }

@@ -9,11 +9,8 @@ import java.util.Optional;
 
 public interface AdminServiceInterface {
 
-  public void register(Admin admin);
-
   public List<Admin> getAllAdmins();
 
   public Admin findByPhone(String phone);
 
-  public Optional<Admin> authenticate(String phoneNumber, String password);
 }

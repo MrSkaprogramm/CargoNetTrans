@@ -9,10 +9,6 @@ import java.util.Optional;
 
 public interface DriverServiceInterface {
 
-  public void register(Driver driver);
-
-  public void updateDriverInfo(int driverId, UserUpdateInfoDto userUpdateInfoDto);
-
   /*public void changeCarCharacteristics();
 
   public void takeToWork();*/
@@ -20,7 +16,5 @@ public interface DriverServiceInterface {
   public List<Driver> getAllDrivers();
 
   public Driver findByPhone(String phone);
-
-  public Optional<Driver> authenticate(String phoneNumber, String password);
 
 }

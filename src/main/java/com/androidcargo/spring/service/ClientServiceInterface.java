@@ -8,10 +8,6 @@ import java.util.Optional;
 
 public interface ClientServiceInterface {
 
-  public void register(Client client);
-
-  public void updateClientInfo(int clientId, UserUpdateInfoDto userUpdateInfoDto);
-
   /*public void makeOrder();
 
   public void cancelOrder();
@@ -22,7 +18,4 @@ public interface ClientServiceInterface {
 
   public List<Client> getAllClients();
 
-  public Client findByPhone(String phone);
-
-  public Optional<Client> authenticate(String phoneNumber, String password);
 }

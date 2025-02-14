@@ -6,5 +6,4 @@ import com.androidcargo.spring.models.user.Client;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Integer> {
-    Client findByPhoneNumber(String phoneNumber);
 }

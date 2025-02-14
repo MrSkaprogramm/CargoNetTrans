@@ -18,13 +18,5 @@ public class DriverController {
         this.driverService = driverService;
     }
 
-    @GetMapping("/joinTheLine")
-    public String joinTheLine(HttpSession session) {
-        return "/admin";
-    }
 
-    @GetMapping("/takeToWork")
-    public String takeToWork(HttpSession session) {
-        return "/admin";
-    }
 }

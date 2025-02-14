@@ -20,16 +20,19 @@ public class DriverCarController {
 
     @GetMapping("/addCar")
     public String addCar(HttpSession session) {
+        //передача данных в бд о новой машине
         return "/admin";
     }
 
     @GetMapping("/changeCar")
     public String changeCar(HttpSession session) {
+
         return "/admin";
     }
 
     @GetMapping("/showCar")
     public String showCar(HttpSession session) {
+        //загрузка данных о машине из бд
         return "/admin";
     }
 }

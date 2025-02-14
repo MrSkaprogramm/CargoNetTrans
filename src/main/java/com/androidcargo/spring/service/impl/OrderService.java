@@ -2,6 +2,7 @@ package com.androidcargo.spring.service.impl;
 
 import com.androidcargo.spring.models.order.Order;
 import com.androidcargo.spring.models.order.OrderStatus;
+import com.androidcargo.spring.models.user.Client;
 import com.androidcargo.spring.models.user.Driver;
 import com.androidcargo.spring.models.user.Mover;
 import com.androidcargo.spring.models.work.DriverWork;
@@ -12,9 +13,11 @@ import com.androidcargo.spring.repository.OrderRepository;
 import com.androidcargo.spring.service.OrderServiceInterface;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService implements OrderServiceInterface {
@@ -28,13 +31,42 @@ public class OrderService implements OrderServiceInterface {
   }
 
   @Override
-  public void beginOrder() {
-    Order order = new Order();
+  public BigDecimal calculateDriverFreightQuantity(Order order) {
+    long orderTime = calculateOrderTime(order.getActualStartTime(), order.getActualEndTime());
+    BigDecimal freight = order.getDriver().getCars().getFirst().getDriverWork().getFreight();
+
+    BigDecimal bigDecimalOrderTime = new BigDecimal(orderTime);
+
+    BigDecimal orderFreight = bigDecimalOrderTime.divide(freight, RoundingMode.HALF_UP);
+
+
+    return orderFreight;
   }
 
   @Override
-  public void makeOrder() {
-    Order order = null;
+  public BigDecimal calculateMoverFreightQuantity(Order order) {
+    long orderTime = calculateOrderTime(order.getActualStartTime(), order.getActualEndTime());
+    BigDecimal freight = order.getDriver().getCars().getFirst().getDriverWork().getFreight();
+
+    BigDecimal bigDecimalOrderTime = new BigDecimal(orderTime);
+
+    BigDecimal orderFreight = bigDecimalOrderTime.divide(freight, RoundingMode.HALF_UP);
+
+
+    return orderFreight;
+  }
+
+  @Override
+  public void makeOrder(Client client, String description, boolean isDowntownWork, boolean isElevatorDelivery, boolean isHeavyLoad, BigDecimal floorsQuantity) {
+    Order order = new Order();
+    order.setOrderStatus(OrderStatus.SEARCH);
+    order.setClient(client);
+    order.setDescription(description);
+    order.setDowntownWork(isDowntownWork);
+    order.setElevatorDelivery(isElevatorDelivery);
+    order.setHeavyLoad(isHeavyLoad);
+    order.setFloorsQuantity(floorsQuantity);
+
     orderRepository.save(order);
   }
 
@@ -115,6 +147,18 @@ public class OrderService implements OrderServiceInterface {
   @Override
   public List<Order> getAllOrders() {
     return orderRepository.findAll();
+  }
+
+  @Override
+  public Order getOrder(int id) {
+    Order order = null;
+    Optional<Order> optionalOrder = orderRepository.findById(id);
+    if (optionalOrder.isPresent()) {
+      order = optionalOrder.get();
+    } else {
+      throw new IllegalArgumentException("Car not found");
+    }
+    return order;
   }
 
 }

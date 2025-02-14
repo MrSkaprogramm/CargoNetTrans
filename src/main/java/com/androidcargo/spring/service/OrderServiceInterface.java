@@ -2,6 +2,7 @@ package com.androidcargo.spring.service;
 
 import com.androidcargo.spring.models.order.Order;
 import com.androidcargo.spring.models.order.OrderStatus;
+import com.androidcargo.spring.models.user.Client;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,9 +10,11 @@ import java.util.List;
 
 public interface OrderServiceInterface {
 
-  public void beginOrder();
+  public BigDecimal calculateDriverFreightQuantity(Order order);
 
-  void makeOrder();
+  public BigDecimal calculateMoverFreightQuantity(Order order);
+
+  public void makeOrder(Client client, String description, boolean isDowntownWork, boolean isElevatorDelivery, boolean isHeavyLoad, BigDecimal floorsQuantity);
 
   public BigDecimal calculateOrderPrice(Order order);
 
@@ -22,5 +25,7 @@ public interface OrderServiceInterface {
   public Order changeOrderStatus(Order order, OrderStatus orderStatus);
 
   public List<Order> getAllOrders();
+
+  public Order getOrder(int id);
 
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/showMovers")
+@RequestMapping("/")
 public class AdminMoverController {
     private final MoverService moverService;
 
@@ -29,15 +29,15 @@ public class AdminMoverController {
         return "/admin";
     };
 
-    @GetMapping("/{id}/blockMover")
-    public String blockMover(@PathVariable int id) {
-        moverService.blockMover(id);
+    @GetMapping("/{id}/showCarInfo")
+    public String showMoverData(@PathVariable int id) {
+        carService.getCar(id);
         return "/admin";
     };
 
-    @GetMapping("/{id}/unBlockMover")
-    public String unBlockMover(@PathVariable int id) {
-        moverService.unBlockMover(id);
+    @GetMapping("/changeWorkPrices")
+    public String changeWorkPrices() {
+        //отправка в бд изменённых данных о ценах на работы
         return "/admin";
-    };
+    }
 }

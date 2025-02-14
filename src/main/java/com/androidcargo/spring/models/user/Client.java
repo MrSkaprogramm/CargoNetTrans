@@ -12,7 +12,10 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "Client")
-public class Client extends User {
+public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int clientId;
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 }
