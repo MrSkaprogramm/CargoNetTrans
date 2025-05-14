@@ -17,18 +17,18 @@ import jakarta.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "DriverWork")
+@Table(name = "driver_work")
 public class DriverWork {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  @Column(name = "permission")
+  @Column(name = "car_body_type")
   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   private BodyType carBodyType;
   @Column(name = "freight")
   private BigDecimal freight;
-  @Column(name = "pricePerFreightHour")
+  @Column(name = "price_per_downtown_km")
   private BigDecimal pricePerFreightHour;
-  @Column(name = "pricePerDowntownKm")
+  @Column(name = "price_per_freight_hour")
   private BigDecimal pricePerDowntownKm;
 }

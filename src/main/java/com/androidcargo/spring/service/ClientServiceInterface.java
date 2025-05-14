@@ -1,6 +1,6 @@
 package com.androidcargo.spring.service;
 
-import com.androidcargo.spring.dto.UserUpdateInfoDto;
+import com.androidcargo.spring.models.order.Order;
 import com.androidcargo.spring.models.user.Client;
 
 import java.util.List;
@@ -8,14 +8,15 @@ import java.util.Optional;
 
 public interface ClientServiceInterface {
 
-  /*public void makeOrder();
+    Client getClient(int id);
 
-  public void cancelOrder();
+    public List<Client> getAllClients();
 
-  public void changeOrder();
+    Optional<Client> findByPhone(String phone);
 
-  public void showWorkContractorCharacteristics();*/
+    void register(Client client);
 
-  public List<Client> getAllClients();
+    Optional<Client> authenticate(String phoneNumber, String password);
 
+    boolean updateProfile(String currentPhone, String name, String newEmail);
 }

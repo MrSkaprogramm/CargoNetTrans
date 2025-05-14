@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "MoverWork")
+@Table(name = "mover_work")
 public class MoverWork {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

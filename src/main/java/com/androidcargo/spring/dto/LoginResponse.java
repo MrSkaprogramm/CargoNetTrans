@@ -5,11 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserUpdateInfoDto {
+public class LoginResponse {
+    private int id;
     private String login;
     private String name;
     private String surname;
     private String patronymic;
     private String phoneNumber;
     private String email;
+    private String role;
 }

@@ -23,93 +23,30 @@ import java.util.Properties;
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement(proxyTargetClass = true)
 public class SpringConfig implements WebMvcConfigurer {
-  @Value("${hibernate.dialect}")
-  private String hibernateDialect;
-
-  @Value("${hibernate.show_sql}")
-  private String hibernateShowSql;
-
-  @Value("${db.driver}")
-  private String connectionDriverClass;
-
-  @Value("${db.url}")
-  private String connectionUrl;
-
-  @Value("${db.user}")
-  private String connectionUsername;
-
-  @Value("${db.password}")
-  private String connectionPassword;
-
-  @Value("${db.poolsize}")
-  private int poolSize;
 
   @Bean
-  public AdminService personService(AdminRepository adminRepository, ClientRepository clientRepository, DriverRepository driverRepository, CarRepository carRepository,  OrderRepository orderRepository, CarDataRepository carDataRepository, DriverDataRepository driverDataRepository, MoverDataRepository moverDataRepository) {
-    return new AdminService(adminRepository, clientService(clientRepository), driverService(driverRepository, carService(carRepository)), carService(carRepository), orderService(orderRepository, dataService(carDataRepository, driverDataRepository, moverDataRepository));
+  public AdminService adminService(AdminRepository adminRepository, DriverWorkRepository driverWorkRepository, MoverWorkRepository moverWorkRepository) {
+    return new AdminService(adminRepository, driverWorkRepository, moverWorkRepository);
   }
 
   @Bean
-  public CarService carService(CarRepository carRepository) {
-    return new CarService(carRepository);
+  public ClientService clientService(ClientRepository clientRepository, OrderRepository orderRepository) {
+    return new ClientService(clientRepository, orderRepository);
   }
 
   @Bean
-  public DataService dataService(CarDataRepository carDataRepository, DriverDataRepository driverDataRepository, MoverDataRepository moverDataRepository) {
-    return new DataService(carDataRepository, driverDataRepository, moverDataRepository);
+  public DriverService driverService(DriverRepository driverRepository, OrderRepository orderRepository, CarRepository carRepository) {
+    return new DriverService(driverRepository, orderRepository, carRepository);
   }
 
   @Bean
-  public ClientService clientService(ClientRepository clientRepository) {
-    return new ClientService(clientRepository);
+  public MoverService moverService(MoverRepository moverRepository, OrderRepository orderRepository) {
+    return new MoverService(moverRepository, orderRepository);
   }
 
   @Bean
-  public DriverService driverService(DriverRepository driverRepository, CarService carService, CarRepository carRepository) {
-    return new DriverService(driverRepository, carService(carRepository));
-  }
-
-  @Bean
-  public MoverService moverService(MoverRepository moverRepository) {
-    return new MoverService(moverRepository);
-  }
-
-  @Bean
-  public OrderService orderService(OrderRepository orderRepository, CarDataRepository carDataRepository, DriverDataRepository driverDataRepository, MoverDataRepository moverDataRepository) {
-    return new OrderService(orderRepository, dataService(carDataRepository, driverDataRepository, moverDataRepository));
-  }
-
-  @Bean
-  public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-    LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-
-    factory.setDataSource(dataSource()); // обновленная строка
-    factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-    factory.setPackagesToScan("com.andersen.tr.model");
-
-    Properties jpaProperties = new Properties();
-    jpaProperties.put("hibernate.dialect", hibernateDialect);
-    jpaProperties.put("hibernate.show_sql", hibernateShowSql);
-    jpaProperties.put("hibernate.hbm2ddl.auto", "update");
-    factory.setJpaProperties(jpaProperties);
-    return factory;
-  }
-
-  @Bean
-  public DataSource dataSource() {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName(connectionDriverClass);
-    dataSource.setUrl(connectionUrl);
-    dataSource.setUsername(connectionUsername);
-    dataSource.setPassword(connectionPassword);
-    return dataSource;
-  }
-
-  @Bean
-  public PlatformTransactionManager transactionManager(DataSource dataSource) {
-    JpaTransactionManager tm = new JpaTransactionManager();
-    tm.setEntityManagerFactory(entityManagerFactory().getObject());
-    return tm;
+  public OrderService orderService(OrderRepository orderRepository, DriverRepository driverRepository) {
+    return new OrderService(orderRepository, driverRepository);
   }
 
 }

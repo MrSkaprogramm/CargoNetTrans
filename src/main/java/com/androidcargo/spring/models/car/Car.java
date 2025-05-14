@@ -1,31 +1,26 @@
 package com.androidcargo.spring.models.car;
 
-import com.androidcargo.spring.models.work.DriverWork;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "Car")
+@Table(name = "car")
 public class Car {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-  @Column(name = "driverWork")
-  private DriverWork driverWork;
-  @Column(name = "capacity")
-  private double capacity;
-  @Column(name = "width")
-  private double width;
-  @Column(name = "height")
-  private double height;
-  @Column(name = "driverId")
-  private int driverId;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  private List<CarData> carDataList = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "body_type")
+    private BodyType bodyType;
+    @Column(name = "capacity")
+    private double capacity;
+    @Column(name = "width")
+    private double width;
+    @Column(name = "height")
+    private double height;
 }

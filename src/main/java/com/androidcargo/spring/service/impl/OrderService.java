@@ -4,16 +4,13 @@ import com.androidcargo.spring.models.order.Order;
 import com.androidcargo.spring.models.order.OrderStatus;
 import com.androidcargo.spring.models.user.Client;
 import com.androidcargo.spring.models.user.Driver;
-import com.androidcargo.spring.models.user.Mover;
-import com.androidcargo.spring.models.work.DriverWork;
-import com.androidcargo.spring.models.work.MoverWork;
+import com.androidcargo.spring.repository.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.androidcargo.spring.repository.OrderRepository;
 import com.androidcargo.spring.service.OrderServiceInterface;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,45 +19,45 @@ import java.util.Optional;
 @Service
 public class OrderService implements OrderServiceInterface {
   private final OrderRepository orderRepository;
-  private final DataService dataService;
+  private final DriverRepository driverRepository;
 
   @Autowired
-  public OrderService(OrderRepository orderRepository, DataService dataService) {
+  public OrderService(OrderRepository orderRepository, DriverRepository driverRepository) {
     this.orderRepository = orderRepository;
-    this.dataService = dataService;
+      this.driverRepository = driverRepository;
   }
 
   @Override
   public BigDecimal calculateDriverFreightQuantity(Order order) {
-    long orderTime = calculateOrderTime(order.getActualStartTime(), order.getActualEndTime());
+    /*long orderTime = calculateOrderTime(order.getActualStartTime(), order.getActualEndTime());
     BigDecimal freight = order.getDriver().getCars().getFirst().getDriverWork().getFreight();
 
     BigDecimal bigDecimalOrderTime = new BigDecimal(orderTime);
 
-    BigDecimal orderFreight = bigDecimalOrderTime.divide(freight, RoundingMode.HALF_UP);
+    BigDecimal orderFreight = bigDecimalOrderTime.divide(freight, RoundingMode.HALF_UP);*/
 
 
-    return orderFreight;
+    return null;
   }
 
   @Override
   public BigDecimal calculateMoverFreightQuantity(Order order) {
-    long orderTime = calculateOrderTime(order.getActualStartTime(), order.getActualEndTime());
+    /*long orderTime = calculateOrderTime(order.getActualStartTime(), order.getActualEndTime());
     BigDecimal freight = order.getDriver().getCars().getFirst().getDriverWork().getFreight();
 
     BigDecimal bigDecimalOrderTime = new BigDecimal(orderTime);
 
-    BigDecimal orderFreight = bigDecimalOrderTime.divide(freight, RoundingMode.HALF_UP);
+    BigDecimal orderFreight = bigDecimalOrderTime.divide(freight, RoundingMode.HALF_UP);*/
 
 
-    return orderFreight;
+    return null;
   }
 
   @Override
   public void makeOrder(Client client, String description, boolean isDowntownWork, boolean isElevatorDelivery, boolean isHeavyLoad, BigDecimal floorsQuantity) {
     Order order = new Order();
     order.setOrderStatus(OrderStatus.SEARCH);
-    order.setClient(client);
+    //order.setClient(client);
     order.setDescription(description);
     order.setDowntownWork(isDowntownWork);
     order.setElevatorDelivery(isElevatorDelivery);
@@ -81,25 +78,25 @@ public class OrderService implements OrderServiceInterface {
   }
 
   public BigDecimal calculateDriverPrice(Order order) {
-    BigDecimal driverPrice = null;
+    /*BigDecimal driverPrice = null;
     Driver driver = order.getDriver();
     DriverWork driverWork = driver.getCars().getFirst().getDriverWork();
 
     if (order.isDowntownWork()) {
       driverPrice = driverWork.getFreight().multiply(driverWork.getPricePerFreightHour()
-              .multiply(order.getFreightQuantity()))
-              .add(driverWork.getPricePerDowntownKm().multiply(BigDecimal.valueOf(order.getLocation().getDistance()))); //В городе цена = фрахт
+              .multiply(order.getFreightQuantity()));
+              //.add(driverWork.getPricePerDowntownKm().multiply(BigDecimal.valueOf(order.getLocation().getDistance()))); //В городе цена = фрахт
 
     } else {
       driverPrice = driverWork.getFreight().multiply(driverWork.getPricePerFreightHour())
               .multiply(order.getFreightQuantity()); //За городом цена = фрахт + километры за городом
-    }
+    }*/
 
-    return driverPrice;
+    return null;
   }
 
   public BigDecimal calculateMoversPrice(Order order) {
-    BigDecimal moverPrice = null;
+    /*BigDecimal moverPrice = null;
     List<Mover> movers = order.getMovers();
 
     MoverWork moverWork = movers.getFirst().getMoverWorksList().getFirst();
@@ -118,9 +115,9 @@ public class OrderService implements OrderServiceInterface {
 
     if (order.isElevatorDelivery()) {
       moverPrice = moverPrice.add(moverWork.getPricePerFloorLifting().multiply(order.getFloorsQuantity())); //При подъёме без лифта цена = цена + цена подъёма на каждый этаж
-    }
+    }*/
 
-    return moverPrice;
+    return null;
   }
 
   @Override
@@ -159,6 +156,30 @@ public class OrderService implements OrderServiceInterface {
       throw new IllegalArgumentException("Car not found");
     }
     return order;
+  }
+
+  @Override
+  public List<Order> getAvailableOrders() {
+    return orderRepository.findByOrderStatus(OrderStatus.SEARCH);
+  }
+
+  @Override
+  public boolean acceptOrder(Integer orderId, String driverPhone) {
+    Optional<Order> orderOpt = orderRepository.findById(orderId);
+    Optional<Driver> driverOpt = driverRepository.findByPhoneNumber(driverPhone);
+
+    if (orderOpt.isPresent() && driverOpt.isPresent()) {
+      Order order = orderOpt.get();
+      Driver driver = driverOpt.get();
+
+      if (order.getOrderStatus() == OrderStatus.SEARCH) {
+        //order.setDriver(driver);
+        order.setOrderStatus(OrderStatus.IN_PROCESS);
+        orderRepository.save(order);
+        return true;
+      }
+    }
+    return false;
   }
 
 }

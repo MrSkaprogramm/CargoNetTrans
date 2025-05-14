@@ -8,18 +8,15 @@ import java.util.Optional;
 
 public interface MoverServiceInterface {
 
-  public List<Order> getMoverOrders(Integer moverId);
+    public Mover getMover(int id);
 
-  public Mover getMover(int id);
+    public List<Mover> getAllMovers();
 
-  /*public void changeCharacteristics();
+    public Optional<Mover> findByPhone(String phone);
 
-  public void changeServicesList();
+    void register(Mover mover);
 
-  public void takeToWork();*/
+    Optional<Mover> authenticate(String phoneNumber, String password);
 
-  public List<Mover> getAllMovers();
-
-  public Mover findByPhone(String phone);
-
+    boolean updateProfile(String currentEmail, String name, String newEmail);
 }

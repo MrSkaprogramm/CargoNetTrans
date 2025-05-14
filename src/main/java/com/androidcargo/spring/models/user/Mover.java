@@ -12,13 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "Mover")
-public class Mover {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int moverId;
-  @Column(name = "moverWorksList")
-  private List<MoverWork> moverWorksList;
-  @ManyToMany(mappedBy = "orders", fetch = FetchType.EAGER)
-  private List<Order> orders = new ArrayList<>();
+@Table(name = "mover")
+public class Mover extends User {
+  /*@Column(name = "moverWorksList")
+  private List<MoverWork> moverWorksList;*/
+  /*@ManyToMany(mappedBy = "movers", fetch = FetchType.EAGER)
+  private List<Order> orders = new ArrayList<>();*/
 }

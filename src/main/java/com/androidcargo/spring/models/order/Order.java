@@ -5,43 +5,49 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.androidcargo.spring.models.Location;
 import com.androidcargo.spring.models.user.Client;
 import com.androidcargo.spring.models.user.Driver;
 import com.androidcargo.spring.models.user.Mover;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "Order")
+@Table(name = "\"order\"")
 public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  @Column(name = "orderStatus")
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+  @Column(name = "order_status")
   OrderStatus orderStatus;
-  @Column(name = "totalPrice")
+  @Column(name = "address")
+  private String address;
+  @Column(name = "total_price")
   private BigDecimal totalPrice;
   @Column(name = "description")
   private String description;
-  @Column(name = "actualStartTime")
+  @Column(name = "actual_start_time")
   private LocalDateTime actualStartTime;
-  @Column(name = "actualEndTime")
+  @Column(name = "actual_end_time")
   private LocalDateTime actualEndTime;
-  @Column(name = "isDowntownWork")
+  @Column(name = "is_downtown_work")
   private boolean isDowntownWork;
-  @Column(name = "isElevatorDelivery;")
+  @Column(name = "is_elevator_delivery")
   private boolean isElevatorDelivery;
-  @Column(name = "isHeavyLoad")
+  @Column(name = "distance")
+  private BigDecimal distance;
+  @Column(name = "is_heavy_load")
   private boolean isHeavyLoad;
-  @Column(name = "freightQuantity")
+  @Column(name = "freight_quantity")
   private BigDecimal freightQuantity;
-  @Column(name = "floorsQuantity")
+  @Column(name = "floors_quantity")
   private BigDecimal floorsQuantity;
-  @ManyToOne(fetch = FetchType.EAGER)
+  /*@ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "client_id", nullable = false)
   private Client client;
   @ManyToOne(fetch = FetchType.EAGER)
@@ -53,8 +59,5 @@ public class Order {
           joinColumns = @JoinColumn(name = "order_id"),
           inverseJoinColumns = @JoinColumn(name = "mover_id")
   )
-  private List<Mover> movers = new ArrayList<>();
-  @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "location_id", unique = true, nullable = false)
-  private Location location;
+  private List<Mover> movers = new ArrayList<>();*/
 }

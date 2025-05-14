@@ -1,8 +1,8 @@
 package com.androidcargo.spring.service.impl;
 
-import com.androidcargo.spring.models.order.Order;
 import com.androidcargo.spring.models.user.Mover;
 import com.androidcargo.spring.repository.OrderRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.androidcargo.spring.repository.MoverRepository;
@@ -22,52 +22,45 @@ public class MoverService implements MoverServiceInterface {
     this.orderRepository = orderRepository;
   }
 
-  /*@Override
-  public void changeServicesList() {
-    // TODO Auto-generated method stub
-
-  }*/
-
-  @Override
-  public void takeToWork(Order order, Mover mover) {
-    List<Mover> movers = order.getMovers();
-    movers.add(mover);
-    order.setMovers(movers);
-
-    orderRepository.save(order);
-  }
-
-  /*@Override
-  public void addWorkToList() {
-    // TODO Auto-generated method stub
-
-  }*/
-
-  @Override
-  public List<Order> getMoverOrders(Integer moverId) {
-    Mover mover = moverRepository.findById(moverId).orElse(null);
-
-    if (mover == null) {
-      throw new IllegalArgumentException("Mover not found");
-    }
-
-    return orderRepository.findByMover(mover);
-  }
-
   @Override
   public Mover getMover(int id) {
-    Mover mover = null;
-    Optional<Mover> optionalMover = moverRepository.findById(id);
-    if (optionalMover.isPresent()) {
-      mover = optionalMover.get();
-    } else {
-      throw new IllegalArgumentException("Car not found");
-    }
-    return mover;
+    return moverRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Mover not found"));
   }
 
   @Override
   public List<Mover> getAllMovers() {
     return moverRepository.findAll();
+  }
+
+  @Override
+  public Optional<Mover> findByPhone(String phone) {
+    return moverRepository.findByPhoneNumber(phone);
+  }
+
+  @Override
+  public void register(Mover mover) {
+    moverRepository.save(mover);
+  }
+
+  @Override
+  public Optional<Mover> authenticate(String phoneNumber, String password) {
+    return moverRepository.findByPhoneNumber(phoneNumber)
+            .filter(mover -> mover.getPassword().equals(password));
+  }
+
+  @Override
+  public boolean updateProfile(String currentPhone, String name, String newEmail) {
+    // Находим грузчика по текущему email
+    Mover mover = moverRepository.findByPhoneNumber(currentPhone)
+            .orElseThrow(() -> new EntityNotFoundException("Грузчик не найден"));
+
+    // Обновляем данные
+    mover.setName(name);
+    mover.setEmail(newEmail);
+
+    // Сохраняем изменения
+    moverRepository.save(mover);
+    return true;
   }
 }

@@ -28,4 +28,7 @@ public interface OrderServiceInterface {
 
   public Order getOrder(int id);
 
+    List<Order> getAvailableOrders();
+
+  boolean acceptOrder(Integer orderId, String driverPhone);
 }
